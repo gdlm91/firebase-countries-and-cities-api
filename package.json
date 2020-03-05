@@ -1,0 +1,48 @@
+{
+    "name": "firebase-countries-and-cities-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/index.js",
+    "engines": {
+        "node": "8"
+    },
+    "scripts": {
+        "build": "tsc",
+        "serve": "npm run build && firebase emulators:start --only functions",
+        "shell": "npm run build && firebase functions:shell",
+        "start": "npm run shell",
+        "deploy": "firebase deploy --only functions",
+        "logs": "firebase functions:log",
+        "lint": "tsc --noEmit && eslint 'src/**/*.{ts}' --quiet --fix"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "firebase-admin": "^8.9.2",
+        "firebase-functions": "^3.3.0"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.6",
+        "@typescript-eslint/eslint-plugin": "^2.22.0",
+        "@typescript-eslint/parser": "^2.22.0",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.10.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "firebase-functions-test": "^0.2.0",
+        "prettier": "^1.19.1",
+        "typescript": "^3.8.3"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "tsc --noEmit && lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,tsx}": [
+            "eslint --fix",
+            "git add"
+        ]
+    }
+}
