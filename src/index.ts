@@ -31,7 +31,11 @@ app.get('/countries/:code/cities', (req, res) => {
     }
 
     const states = csc.getStatesOfCountry(country.id);
-    const cities = states.map(_state => csc.getCitiesOfState(_state.id)).flat(1);
+    const cities = states
+        .map(_state => csc.getCitiesOfState(_state.id))
+        .reduce((acc, cities) => {
+            return [...acc, ...cities];
+        }, []);
 
     res.send(cities);
 });
