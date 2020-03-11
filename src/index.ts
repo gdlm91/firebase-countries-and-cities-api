@@ -2,8 +2,26 @@ import * as functions from 'firebase-functions';
 import * as express from 'express';
 import * as cors from 'cors';
 
-import csc from 'country-state-city';
-import { ICountry } from 'country-state-city';
+import csc, { ICountry, ICity } from 'country-state-city';
+
+type CountriesOrCities = ICountry[] | ICity[];
+
+type CountryOrCity = ICountry | ICity;
+
+function sortByName(countriesOrCities: CountriesOrCities): CountriesOrCities {
+    return countriesOrCities.sort((a: CountryOrCity, b: CountryOrCity) => {
+        const lowerA = a.name.toLowerCase();
+        const lowerB = b.name.toLowerCase();
+
+        if (lowerA < lowerB) {
+            return -1;
+        } else if (lowerA > lowerB) {
+            return 1;
+        }
+
+        return 0;
+    });
+}
 
 const app = express();
 
@@ -19,7 +37,7 @@ app.get('/', (req, res) =>
 `),
 );
 
-app.get('/countries', (req, res) => res.send(csc.getAllCountries()));
+app.get('/countries', (req, res) => res.send(sortByName(csc.getAllCountries())));
 
 app.get('/countries/:code/cities', (req, res) => {
     const { code } = req.params as { code: ICountry['sortname'] };
@@ -37,7 +55,7 @@ app.get('/countries/:code/cities', (req, res) => {
             return [...acc, ...cities];
         }, []);
 
-    res.send(cities);
+    res.send(sortByName(cities));
 });
 
 export const api = functions.https.onRequest(app);

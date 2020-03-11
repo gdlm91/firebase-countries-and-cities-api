@@ -14,7 +14,8 @@
         "start": "run-p serve watch",
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "lint": "tsc --noEmit && eslint 'src/**/*.ts' --quiet --fix"
+        "lint": "tsc --noEmit && eslint 'src/**/*.ts' --quiet --fix",
+        "postinstall": "patch-package"
     },
     "author": "",
     "license": "ISC",
@@ -23,7 +24,8 @@
         "country-state-city": "^1.0.4",
         "express": "^4.17.1",
         "firebase-admin": "^8.9.2",
-        "firebase-functions": "^3.3.0"
+        "firebase-functions": "^3.3.0",
+        "patch-package": "^6.2.1"
     },
     "devDependencies": {
         "@types/cors": "^2.8.6",
